@@ -65,6 +65,19 @@ void disableDisplaySystemMessages()
 //Display the current firmware version for a set amount of time
 void displayFirmwareVersion()
 {
+  // send the version over SPI
+  while(!(SPSR & (1 << SPIF)));
+  SPDR = 'v';
+
+  while(!(SPSR & (1 << SPIF)));
+  SPDR = firmwareVersionMajor;
+
+  while(!(SPSR & (1 << SPIF)));
+  SPDR = '.';
+
+  while(!(SPSR & (1 << SPIF)));
+  SPDR = firmwareVersionMinor;
+
   SerLCD.clear();
   SerLCD.setCursor(0, 0);
 
